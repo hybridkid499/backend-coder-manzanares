@@ -1,0 +1,15 @@
+[
+  {
+    "id": "6055f819-2380-49c4-bfc6-2a0c62a81ce7",
+    "title": "Camiseta",
+    "description": "Camiseta 100% algodón",
+    "code": "SKU-001",
+    "price": 1899.99,
+    "status": true,
+    "stock": 40,
+    "category": "indumentaria",
+    "thumbnails": [
+      "/imgs/cam-1.png"
+    ]
+  }
+]
