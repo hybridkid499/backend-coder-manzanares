@@ -1,0 +1,19 @@
+{{!-- Usa el layout principal --}}
+{{!< main}}
+
+<h1>Home - Lista de productos</h1>
+
+{{#if products.length}}
+  <ul>
+    {{#each products}}
+      <li>
+        <strong>{{this.title}}</strong> - ${{this.price}}  
+        (stock: {{this.stock}})
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No hay productos cargados todavía.</p>
+{{/if}}
+
+<p><a href="/realtimeproducts">Ir a vista en tiempo real</a></p>

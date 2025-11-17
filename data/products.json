@@ -11,5 +11,16 @@
     "thumbnails": [
       "/imgs/cam-1.png"
     ]
+  },
+  {
+    "id": "e0f351c3-ac5e-40da-9624-f018188ff755",
+    "title": "pantalon",
+    "description": "pantalon negro",
+    "code": "123456789",
+    "price": 30000,
+    "status": true,
+    "stock": 10,
+    "category": "ropa",
+    "thumbnails": []
   }
 ]
