@@ -7,7 +7,7 @@ export async function readJson(filePath, fallback = []) {
     return JSON.parse(content);
   } catch (err) {
     if (err.code === 'ENOENT') {
-      // Si no existe, crear con el fallback
+      
       await ensureDir(path.dirname(filePath));
       await writeJson(filePath, fallback);
       return fallback;
@@ -26,6 +26,6 @@ async function ensureDir(dir) {
   try {
     await fs.mkdir(dir, { recursive: true });
   } catch {
-    // si ya existe o no se puede crear, dejamos que lance error más adelante en writeFile
+    
   }
 }

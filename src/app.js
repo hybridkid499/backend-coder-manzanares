@@ -1,3 +1,4 @@
+import { connectDB } from './config/db.js';
 import express from 'express';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
@@ -16,46 +17,48 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 8080;
 
-// Creamos servidor HTTP a partir de Express (para usar con socket.io)
+// creamos servidor HTTP a partir de express 
 const httpServer = http.createServer(app);
 const io = new SocketIOServer(httpServer);
 
-// Middlewares JSON / forms
+connectDB();
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static (para JS del cliente, CSS, etc.)
+
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Configuración de Handlebars
+// Configuracion de Handlebars
 app.engine('handlebars', handlebars());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '..', 'views'));
 
-// Routers API
+// router API
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-// Router de vistas
+// touter de vistas
 app.use('/', viewsRouter);
 
-// Healthcheck
+// healthcheck
 app.get('/health', (_, res) => res.status(200).json({ status: 'ok' }));
 
-// Socket.io: canales de tiempo real
+// socket.io: canales de tiempo real
 io.on('connection', async socket => {
   console.log('Nuevo cliente conectado');
 
-  // Enviar lista inicial de productos al conectarse
+  // enviar lista inicial de productos al conectarse
   const products = await ProductManager.getAll();
   socket.emit('productsUpdated', products);
 
-  // Crear producto desde formulario realtime (vía socket)
+  // crear producto desde formulario realtime 
   socket.on('newProduct', async productInput => {
     try {
       await ProductManager.add(productInput);
       const updated = await ProductManager.getAll();
-      // Avisar a TODOS los clientes conectados
+      // avisar a  los clientes conectados
       io.emit('productsUpdated', updated);
     } catch (err) {
       console.error('Error al crear producto desde socket:', err.message);
@@ -63,7 +66,7 @@ io.on('connection', async socket => {
     }
   });
 
-  // Eliminar producto desde formulario realtime
+  // eliminar producto desde formulario 
   socket.on('deleteProduct', async productId => {
     try {
       await ProductManager.remove(productId);
@@ -76,7 +79,7 @@ io.on('connection', async socket => {
   });
 });
 
-// Error handler
+// error 
 app.use((err, req, res, next) => {
   console.error('[ERROR]', err);
   const status = err.statusCode || 500;

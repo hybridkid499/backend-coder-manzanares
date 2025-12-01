@@ -1,19 +1,99 @@
-{{!-- Usa el layout principal --}}
+
 {{!< main}}
 
 <h1>Home - Lista de productos</h1>
 
-{{#if products.length}}
-  <ul>
-    {{#each products}}
-      <li>
-        <strong>{{this.title}}</strong> - ${{this.price}}  
-        (stock: {{this.stock}})
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p>No hay productos cargados todavía.</p>
-{{/if}}
+<section>
+  <h2>Filtros</h2>
+  <form method="GET" action="/products">
+    <label>
+      Búsqueda (categoría o disponibilidad):
+      
+      <input
+        type="text"
+        name="query"
+        placeholder="Ej: category:zapatillas o status:true"
+        value="{{currentQuery}}"
+      />
+    </label>
 
-<p><a href="/realtimeproducts">Ir a vista en tiempo real</a></p>
+    <label>
+      Ordenar por precio:
+      <select name="sort">
+        <option value="">Sin orden</option>
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+      </select>
+    </label>
+
+    <label>
+      Cantidad por página:
+      <input
+        type="number"
+        name="limit"
+        min="1"
+        placeholder="10"
+        value="{{currentLimit}}"
+      />
+    </label>
+
+    <button type="submit">Aplicar</button>
+  </form>
+</section>
+
+<hr />
+
+<section>
+  <h2>Productos</h2>
+
+  {{#if products.length}}
+    <ul>
+      {{#each products}}
+        <li>
+          <strong>{{this.title}}</strong> - ${{this.price}}
+          (stock: {{this.stock}})
+          
+          <a href="/products/{{this._id}}">Ver detalles</a>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No hay productos cargados todavía.</p>
+  {{/if}}
+</section>
+
+<hr />
+
+<section>
+  <h2>Paginación</h2>
+
+  {{#if pagination.totalPages}}
+    <p>Página {{pagination.page}} de {{pagination.totalPages}}</p>
+
+    <nav>
+      {{#if pagination.hasPrevPage}}
+        <a
+          href="/products?page={{pagination.prevPage}}&limit={{currentLimit}}&sort={{currentSort}}&query={{currentQuery}}"
+        >
+          « Anterior
+        </a>
+      {{/if}}
+
+      {{#if pagination.hasNextPage}}
+        <a
+          href="/products?page={{pagination.nextPage}}&limit={{currentLimit}}&sort={{currentSort}}&query={{currentQuery}}"
+        >
+          Siguiente »
+        </a>
+      {{/if}}
+    </nav>
+  {{else}}
+    <p>No hay información de paginación.</p>
+  {{/if}}
+</section>
+
+<hr />
+
+<p>
+  <a href="/realtimeproducts">Ir a vista en tiempo real</a>
+</p>

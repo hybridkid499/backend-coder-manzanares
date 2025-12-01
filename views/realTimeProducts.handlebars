@@ -7,7 +7,7 @@
   <ul id="products-list">
     {{#if products.length}}
       {{#each products}}
-        <li data-id="{{this.id}}">
+        <li data-id="{{this._id}}">
           <strong>{{this.title}}</strong> - ${{this.price}} (stock: {{this.stock}})
         </li>
       {{/each}}
@@ -49,6 +49,6 @@
 
 <p id="messages"></p>
 
-{{!-- Scripts de Socket.io + lgica del cliente --}}
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/realtime.js"></script>

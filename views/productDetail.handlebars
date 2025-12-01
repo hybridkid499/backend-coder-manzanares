@@ -1,0 +1,68 @@
+{{!< main}}
+
+<h1>{{product.title}}</h1>
+
+<section>
+  <h2>Detalles del producto</h2>
+  <ul>
+    <li><strong>Descripción:</strong> {{product.description}}</li>
+    <li><strong>Precio:</strong> ${{product.price}}</li>
+    <li><strong>Categoría:</strong> {{product.category}}</li>
+    <li><strong>Stock disponible:</strong> {{product.stock}}</li>
+    <li>
+      <strong>Estado:</strong>
+      {{#if product.status}}
+        Disponible
+      {{else}}
+        No disponible
+      {{/if}}
+    </li>
+    <li><strong>Código:</strong> {{product.code}}</li>
+    <li><strong>ID:</strong> {{product._id}}</li>
+  </ul>
+</section>
+
+<hr />
+
+<section>
+  <h2>Agregar al carrito</h2>
+  <p>
+    Ingresá el ID de un carrito existente y la cantidad que querés agregar
+    de este producto.
+  </p>
+
+  <form id="add-to-cart-form" data-product-id="{{product._id}}">
+    <label>
+      ID del carrito:
+      <input
+        type="text"
+        name="cartId"
+        placeholder="Ej: 675f0f0e1234567890abcd01"
+        required
+      />
+    </label>
+
+    <label>
+      Cantidad:
+      <input
+        type="number"
+        name="quantity"
+        min="1"
+        value="1"
+        required
+      />
+    </label>
+
+    <button type="submit">Agregar al carrito</button>
+  </form>
+
+  <p id="feedback"></p>
+</section>
+
+<hr />
+
+<p>
+  <a href="/products">Volver al listado de productos</a>
+</p>
+
+<script src="/js/productDetail.js"></script>
