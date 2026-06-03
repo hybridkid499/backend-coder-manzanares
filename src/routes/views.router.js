@@ -1,22 +1,18 @@
 import { Router } from 'express';
-import ProductManager from '../managers/ProductManager.js';
-import CartManager from '../managers/CartManager.js';
+import ProductService from '../services/product.service.js';
+import CartService from '../services/cart.service.js';
 
 const router = Router();
 
-// rediigimos la raiz a /products 
 router.get('/', (req, res) => {
   res.redirect('/products');
 });
 
-// vista de productos con paginacion: GET /products
 router.get('/products', async (req, res, next) => {
   try {
     const { limit, page, sort, query } = req.query;
+    const result = await ProductService.paginate({ limit, page, sort, query });
 
-    const result = await ProductManager.paginate({ limit, page, sort, query });
-
-    
     res.render('home', {
       title: 'Productos',
       products: result.docs,
@@ -37,10 +33,9 @@ router.get('/products', async (req, res, next) => {
   }
 });
 
-// vista en tiempo real
 router.get('/realtimeproducts', async (req, res, next) => {
   try {
-    const products = await ProductManager.getAll();
+    const products = await ProductService.getAll();
     res.render('realTimeProducts', {
       title: 'Productos en tiempo real',
       products,
@@ -50,10 +45,9 @@ router.get('/realtimeproducts', async (req, res, next) => {
   }
 });
 
-
 router.get('/products/:pid', async (req, res, next) => {
   try {
-    const product = await ProductManager.getById(req.params.pid);
+    const product = await ProductService.getById(req.params.pid);
     res.render('productDetail', {
       title: product.title,
       product,
@@ -63,16 +57,13 @@ router.get('/products/:pid', async (req, res, next) => {
   }
 });
 
-// vista de un carrito especifico: GET /carts/:cid
 router.get('/carts/:cid', async (req, res, next) => {
   try {
-    const cart = await CartManager.getById(req.params.cid, { populate: true });
-
-    
+    const cart = await CartService.getById(req.params.cid, { populate: true });
     res.render('cart', {
       title: `Carrito ${cart._id}`,
       cart,
-      products: cart.products, 
+      products: cart.products,
     });
   } catch (err) {
     next(err);

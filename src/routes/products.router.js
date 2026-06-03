@@ -1,26 +1,21 @@
 import { Router } from 'express';
-import ProductManager from '../managers/ProductManager.js';
+import ProductService from '../services/product.service.js';
 
 const router = Router();
 
-// GET /api/products/  lista con paginacion, filtos 
 router.get('/', async (req, res, next) => {
   try {
     const { limit, page, sort, query } = req.query;
-
-    const result = await ProductManager.paginate({ limit, page, sort, query });
+    const result = await ProductService.paginate({ limit, page, sort, query });
 
     const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`;
-
     const buildLink = (targetPage) => {
       if (!targetPage) return null;
       const params = new URLSearchParams();
-
       params.set('page', targetPage);
       if (limit) params.set('limit', limit);
       if (sort) params.set('sort', sort);
       if (query) params.set('query', query);
-
       return `${baseUrl}?${params.toString()}`;
     };
 
@@ -41,43 +36,36 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET /api/products/:pid  uno por id
 router.get('/:pid', async (req, res, next) => {
   try {
-    const product = await ProductManager.getById(req.params.pid);
-    if (!product) {
-      return res.status(404).json({ error: true, message: 'Producto no encontrado' });
-    }
+    const product = await ProductService.getById(req.params.pid);
     res.json(product);
   } catch (err) {
     next(err);
   }
 });
 
-// POST /api/products/  crear 
 router.post('/', async (req, res, next) => {
   try {
-    const created = await ProductManager.add(req.body);
+    const created = await ProductService.add(req.body);
     res.status(201).json(created);
   } catch (err) {
     next(err);
   }
 });
 
-// PUT /api/products/:pid  actualiza
 router.put('/:pid', async (req, res, next) => {
   try {
-    const updated = await ProductManager.update(req.params.pid, req.body);
+    const updated = await ProductService.update(req.params.pid, req.body);
     res.json(updated);
   } catch (err) {
     next(err);
   }
 });
 
-// DELETE /api/products/:pid elimin
 router.delete('/:pid', async (req, res, next) => {
   try {
-    const result = await ProductManager.remove(req.params.pid);
+    const result = await ProductService.remove(req.params.pid);
     res.json(result);
   } catch (err) {
     next(err);
