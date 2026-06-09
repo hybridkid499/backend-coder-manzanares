@@ -1,1 +1,14 @@
-entrega final de backend 1 de coder. la idea principal fue migrar toda la persistencia a Mongo, el manejo de productos y carritos, y agregar vistas con handlebars usando la misma logica vista durante las clases. agregue como pude la ultima parte que menciono que no entraba para la entrega, me parecio mejor terminar eso y no dejar algo sin realizar para la entrega. usando guias externas y herramientas de programacion para completar y probar el uso correcto de ciertos parametros y funciones de programacion dentro de lo pedido para la entrega, el .env no va incluido por temas de credenciales, no recuerdo si menciono algo con respecto a el uso de mongo a la hora de prueba pero supongo que usara su propia base que incluira en las credenciales de.env a la hora de prueba. a lo ultimo vi que los archivos json seguian estando pero ya no son utilizados en ninguna parte del codigo, lodeje porque ya en ese punto despues de prueba y error me termino de andar bien los endpoints nuevos y la paginacion, como andaba no quise tocarlo aunque tecnicamente no se usan en ningun lado. tuve un problema con unas condiciones al moverlo a mongo como la llamada de ciertos valores de req y unos id que no habia cambiado cuando hice los archivos modificados con los nuevos endpoints (ya que no habia tocado esse archivo viejo desde la entrega anterior) despues de revisar y cargar el programa para buscar errores que no podia ver claramente, se encontro los errores. con los handlebars lo deje lo mas crudo posible, no hice mucho uso de nada de frontend asi que no hay mucha optimizacion de como se ven las cosas pero las preubas en thunder andaban bien. deje algunos comentarios en partes analizadas de codigo donde se vio que era mejor incluir para que se vea un poco mas ordenado asi que eso hice. espero que ande bien y se haya cumplido por lo menos con lo pedido, saludos.
+E-commerce Backend
+API REST de un carrito de compras. Empezó como proyecto del curso de backend en CoderHouse y después le metí mano para dejarlo con una arquitectura que no me dé vergüenza mostrar.
+¿Qué hace?
+Básicamente lo que haría cualquier tienda online por debajo — productos, carritos, cantidades. Sin frontend flashero, puro backend.
+
+Productos con paginación, filtros y orden por precio
+Carritos con toda la operatoria — agregar, actualizar cantidades, vaciar
+Las capas bien separadas — cada archivo hace una sola cosa
+Errores manejados de forma centralizada, no con ifs por todos lados
+Tiempo real con Socket.io para la vista de productos
+Todo persistido en MongoDB Atlas
+
+Stack
+Node.js · Express · MongoDB Atlas · Mongoose · Handlebars · Socket.io
